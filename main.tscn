@@ -97,6 +97,6 @@ metadata/_edit_lock_ = true
 unique_name_in_owner = true
 script = ExtResource("2_0xm2m")
 
-[node name="Marker2D" type="Marker2D" parent="HBoxContainer/Control2" unique_id=1423736022]
+[node name="ShapeOrigin" type="Marker2D" parent="HBoxContainer/Control2" unique_id=1423736022]
 unique_name_in_owner = true
 position = Vector2(427, 329)

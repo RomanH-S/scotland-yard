@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class Main : Control
@@ -12,6 +13,9 @@ public partial class Main : Control
     private Shape _shape;
     private Line2D _line;
     private ColorRect _generationSpace;
+    private Marker2D _shapeOrigin;
+    private List<Shape> _shapes = [];
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -29,6 +33,7 @@ public partial class Main : Control
 
         _generationSpace = GetNode<ColorRect>("%GenerationSpace");
         //_shape = GetNode<Shape>("%Shape");
+        _shapeOrigin = GetNode<Marker2D>("%ShapeOrigin");
     }
 
     // Best Practice: Unsubscribe when the node leaves the tree to prevent memory leaks
@@ -73,18 +78,10 @@ public partial class Main : Control
             float angle = (float)(i * 2 * Math.PI / numberOfSides);
             float x = (float)(Math.Cos(angle) * 50);
             float y = (float)(Math.Sin(angle) * 50);
-            _line.AddPoint(new Vector2(x+50, y+50));
+            _line.AddPoint(new Vector2(x, y) + _shapeOrigin.Position);
         }
         _shape.AddChild(_line);
-
-        Shape[] _shapeContainer = new Shape[1];
-        int _shapeCounter = 0;
-
-        _shapeContainer[_shapeCounter] = new Shape();
-        
-        _shapeContainer[_shapeCounter].AddChild(_shape);
-        _generationSpace.AddChild(_shapeContainer[_shapeCounter]);
-
-        _shapeCounter++;
+        _shapes.Add(_shape);
+        _generationSpace.AddChild(_shape);
     }
 }
