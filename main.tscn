@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://buf8fh3j1gvkp"]
+
+[ext_resource type="Script" uid="uid://cwsot25of7amj" path="res://Main.cs" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://be47207xhwe5r" path="res://Shape.cs" id="2_0xm2m"]
+
+[node name="Main" type="Control" unique_id=527475798]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ig7tw")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1623745324]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1156355799]
+layout_mode = 2
+alignment = 1
+
+[node name="NumberOfShapesCounter" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=854859339]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/NumberOfShapesCounter" unique_id=261226178]
+layout_mode = 2
+text = "Number of Shapes"
+
+[node name="NumberOfShapesSpinBox" type="SpinBox" parent="HBoxContainer/VBoxContainer/NumberOfShapesCounter" unique_id=786177439]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+value = 2.0
+
+[node name="MinSidesCounter" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1912575217]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/MinSidesCounter" unique_id=87116438]
+layout_mode = 2
+text = "Min # of sides"
+
+[node name="MinSidesSpinBox" type="SpinBox" parent="HBoxContainer/VBoxContainer/MinSidesCounter" unique_id=241460235]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 3.0
+value = 3.0
+
+[node name="MaxSidesCounter" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=2120969467]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/MaxSidesCounter" unique_id=1575425672]
+layout_mode = 2
+text = "Max # of sides"
+
+[node name="MaxSidesSpinBox" type="SpinBox" parent="HBoxContainer/VBoxContainer/MaxSidesCounter" unique_id=2018458929]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 3.0
+value = 3.0
+
+[node name="Control" type="Control" parent="HBoxContainer/VBoxContainer" unique_id=825320978]
+layout_mode = 2
+
+[node name="GenerateShapesButton" type="Button" parent="HBoxContainer/VBoxContainer/Control" unique_id=2047451278]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 35.0
+offset_right = 235.0
+offset_bottom = 66.0
+text = "Generates Shapes"
+
+[node name="OutputLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1556404275]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.21003896, 0.4295673, 0.95851856, 1)
+text = "display output"
+
+[node name="Control2" type="Control" parent="HBoxContainer" unique_id=216814299]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GenerationSpace" type="ColorRect" parent="HBoxContainer/Control2" unique_id=1672588372]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 913.0
+offset_bottom = 646.0
+color = Color(0.6862745, 0.56078434, 0.03137255, 1)
+metadata/_edit_lock_ = true
+
+[node name="Shape" type="Node2D" parent="HBoxContainer/Control2" unique_id=651464496]
+unique_name_in_owner = true
+script = ExtResource("2_0xm2m")
+
+[node name="Marker2D" type="Marker2D" parent="HBoxContainer/Control2" unique_id=1423736022]
+unique_name_in_owner = true
+position = Vector2(427, 329)
