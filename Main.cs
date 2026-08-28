@@ -15,6 +15,7 @@ public partial class Main : Control
     private ColorRect _generationSpace;
     private Marker2D _shapeOrigin;
     private List<Shape> _shapes = [];
+    private static PackedScene _shapeScene;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -27,7 +28,7 @@ public partial class Main : Control
         _minNumberOfSides = GetNode<SpinBox>("%MinSidesSpinBox");
 
         _maxNumberOfSides = GetNode<SpinBox>("%MaxSidesSpinBox");
-        
+
         _outputLabel = GetNode<Label>("%OutputLabel");
         _outputLabel.Text = "";
 
@@ -45,43 +46,36 @@ public partial class Main : Control
         }
     }
 
+    private void displayShape(int sides, Vector2 position)
+    {
+        // Check if the scene has already been loaded once
+        if (_shapeScene == null)
+        {
+            _shapeScene = GD.Load<PackedScene>("res://shape.tscn");
+        }
+
+        Shape shapeInstance = _shapeScene.Instantiate<Shape>();
+        shapeInstance.Render(sides, position);
+        AddChild(shapeInstance);
+    }
+
     private void OnGenerateShapesButtonPressed()
     {
         var numberOfShapes = _numberOfShapes.Value;
         var minNumberOfSides = _minNumberOfSides.Value;
         var maxNumberOfSides = _maxNumberOfSides.Value;
-        
+
         GD.Print($"button pressed: {numberOfShapes}");
         GD.Print($"minimum number of sides: {minNumberOfSides}");
         GD.Print($"Maximum number of Sides: {maxNumberOfSides}");
 
         _outputLabel.Text = $"{numberOfShapes}, {minNumberOfSides}, {maxNumberOfSides}";
-
-
         var random = new Random();
 
-        var numberOfSides = random.Next((int)minNumberOfSides, (int)maxNumberOfSides + 1);
-    
-        GD.Print($"{numberOfSides}");
-        //_shape.draw(numberOfSides);
-
-        var _shape = new Shape();
-        _line = new Line2D();
-
-        _line = new Line2D();
-        _line.Width = 2.0f;
-        _line.DefaultColor = Colors.Red;
-
-        // generates regular polygons
-        for(int i =0; i <= numberOfSides; i++)
+        for (int i = 0; i <= numberOfShapes; i++)
         {
-            float angle = (float)(i * 2 * Math.PI / numberOfSides);
-            float x = (float)(Math.Cos(angle) * 50);
-            float y = (float)(Math.Sin(angle) * 50);
-            _line.AddPoint(new Vector2(x, y) + _shapeOrigin.Position);
+            int numberOfSides = random.Next((int)minNumberOfSides, (int)maxNumberOfSides + 1);
+            displayShape(numberOfSides, _shapeOrigin.Position);
         }
-        _shape.AddChild(_line);
-        _shapes.Add(_shape);
-        _generationSpace.AddChild(_shape);
     }
 }
