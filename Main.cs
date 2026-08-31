@@ -7,6 +7,7 @@ public partial class Main : Control
     private Button _generateShapes;
     private SpinBox _numberOfShapes;
     private SpinBox _minNumberOfSides;
+    private SpinBox _sizeOfShapes;
 
     private SpinBox _maxNumberOfSides;
     private Label _outputLabel;
@@ -29,6 +30,8 @@ public partial class Main : Control
 
         _maxNumberOfSides = GetNode<SpinBox>("%MaxSidesSpinBox");
 
+        _sizeOfShapes = GetNode<SpinBox>("%SizeOfShapesSpinBox");
+
         _outputLabel = GetNode<Label>("%OutputLabel");
         _outputLabel.Text = "";
 
@@ -46,7 +49,7 @@ public partial class Main : Control
         }
     }
 
-    private void displayShape(int sides, Vector2 position)
+    private void displayShape(int sides, Vector2 position, int radius)
     {
         // Check if the scene has already been loaded once
         if (_shapeScene == null)
@@ -55,7 +58,7 @@ public partial class Main : Control
         }
 
         Shape shapeInstance = _shapeScene.Instantiate<Shape>();
-        shapeInstance.Render(sides, position);
+        shapeInstance.RegularPolygon(sides, position, radius);
         AddChild(shapeInstance);
     }
 
@@ -64,6 +67,7 @@ public partial class Main : Control
         var numberOfShapes = _numberOfShapes.Value;
         var minNumberOfSides = _minNumberOfSides.Value;
         var maxNumberOfSides = _maxNumberOfSides.Value;
+        var sizeOfShapes = (int)_sizeOfShapes.Value;
 
         GD.Print($"button pressed: {numberOfShapes}");
         GD.Print($"minimum number of sides: {minNumberOfSides}");
@@ -72,35 +76,26 @@ public partial class Main : Control
         _outputLabel.Text = $"{numberOfShapes}, {minNumberOfSides}, {maxNumberOfSides}";
         var random = new Random();
 
-        // gridContainerWidth = 30
-        // height = 10
-        // width = 10
         int gridContainerWidth = 500;
-        int height = 100;
-        int width = 100;
+
         for (int i = 0; i < numberOfShapes; i++)
         {
-
             int numberOfSides = random.Next((int)minNumberOfSides, (int)maxNumberOfSides + 1);
-            Vector2 position = LayoutGrid(i, height, width, gridContainerWidth);
-            displayShape(numberOfSides, position);
-
-            // x = i * size ?
-            // y = ?
-            // i=0, x=0, y=0
-            // i=1, x=10, y=0
-            // i=2, x=20, y=0
-            // i=3, x=0, y=1
-            // i=4, x=10, y=1
-
+            Vector2 position = LayoutGrid(
+                i,
+                sizeOfShapes * 2,
+                sizeOfShapes * 2,
+                gridContainerWidth
+            );
+            displayShape(numberOfSides, position, sizeOfShapes);
         }
     }
 
     private Vector2 LayoutGrid(int i, int height, int width, int gridWidth)
     {
-        int x = i % (gridWidth / width);
-        int y = i / (gridWidth / width);
-        
+        int columns = gridWidth / width;
+        int x = i % columns;
+        int y = i / columns;
 
         return new Vector2(x * width, y * height);
     }

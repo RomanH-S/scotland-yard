@@ -37,6 +37,20 @@ layout_mode = 2
 min_value = 1.0
 value = 2.0
 
+[node name="SizeOfShapes" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1596049751]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/SizeOfShapes" unique_id=1145941013]
+layout_mode = 2
+text = "Size of Shapes"
+
+[node name="SizeOfShapesSpinBox" type="SpinBox" parent="HBoxContainer/VBoxContainer/SizeOfShapes" unique_id=1356195552]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 10.0
+max_value = 500.0
+value = 50.0
+
 [node name="MinSidesCounter" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1912575217]
 layout_mode = 2
 

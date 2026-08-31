@@ -16,7 +16,7 @@ public partial class Shape : Node2D
         // remove _line
     }
 
-    public void Render(int sides, Vector2 position)
+    public void RegularPolygon(int sides, Vector2 position, int radius)
     {
         _line = new Line2D();
         _line.Width = 2.0f;
@@ -25,8 +25,8 @@ public partial class Shape : Node2D
         for (int i = 0; i <= sides; i++)
         {
             float angle = (float)(i * 2 * Math.PI / sides);
-            float x = (float)(Math.Cos(angle) * 50);
-            float y = (float)(Math.Sin(angle) * 50);
+            float x = (float)(Math.Cos(angle) * radius);
+            float y = (float)(Math.Sin(angle) * radius);
             _line.AddPoint(new Vector2(x, y) + position);
         }
         AddChild(_line);
