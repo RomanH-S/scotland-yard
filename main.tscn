@@ -77,6 +77,23 @@ layout_mode = 2
 min_value = 3.0
 value = 3.0
 
+[node name="MaxSidesCounter2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=644102228]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/MaxSidesCounter2" unique_id=1231031993]
+layout_mode = 2
+text = "Type"
+
+[node name="PolygonType" type="OptionButton" parent="HBoxContainer/VBoxContainer/MaxSidesCounter2" unique_id=1471131442]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 2
+popup/item_0/text = "Regular"
+popup/item_0/id = 0
+popup/item_1/text = "Irregular"
+popup/item_1/id = 1
+
 [node name="Control" type="Control" parent="HBoxContainer/VBoxContainer" unique_id=825320978]
 layout_mode = 2
 
@@ -87,12 +104,6 @@ offset_top = 35.0
 offset_right = 235.0
 offset_bottom = 66.0
 text = "Generates Shapes"
-
-[node name="OutputLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1556404275]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_colors/font_color = Color(0.21003896, 0.4295673, 0.95851856, 1)
-text = "display output"
 
 [node name="Control2" type="Control" parent="HBoxContainer" unique_id=216814299]
 layout_mode = 2

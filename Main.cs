@@ -8,15 +8,21 @@ public partial class Main : Control
     private SpinBox _numberOfShapes;
     private SpinBox _minNumberOfSides;
     private SpinBox _sizeOfShapes;
+    private OptionButton _polygonTypeButton;
 
     private SpinBox _maxNumberOfSides;
-    private Label _outputLabel;
     private Shape _shape;
     private Line2D _line;
     private ColorRect _generationSpace;
     private Marker2D _shapeOrigin;
     private List<Shape> _shapes = [];
     private static PackedScene _shapeScene;
+
+    public enum PolygonType
+    {
+        Regular,
+        Irregular,
+    }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -32,8 +38,18 @@ public partial class Main : Control
 
         _sizeOfShapes = GetNode<SpinBox>("%SizeOfShapesSpinBox");
 
-        _outputLabel = GetNode<Label>("%OutputLabel");
-        _outputLabel.Text = "";
+        _polygonTypeButton = GetNode<OptionButton>("%PolygonType");
+        _polygonTypeButton.Clear();
+
+        // Loop through all values of the enum
+        foreach (PolygonType polygonType in Enum.GetValues(typeof(PolygonType)))
+        {
+            string name = Enum.GetName(typeof(PolygonType), polygonType);
+            int id = (int)polygonType;
+
+            // Add item with the name as text and the enum int value as ID
+            _polygonTypeButton.AddItem(name, id);
+        }
 
         _generationSpace = GetNode<ColorRect>("%GenerationSpace");
         //_shape = GetNode<Shape>("%Shape");
@@ -49,7 +65,7 @@ public partial class Main : Control
         }
     }
 
-    private void displayShape(int sides, Vector2 position, int radius)
+    private void displayShape(int sides, Vector2 position, int radius, PolygonType polygonType)
     {
         // Check if the scene has already been loaded once
         if (_shapeScene == null)
@@ -58,8 +74,26 @@ public partial class Main : Control
         }
 
         Shape shapeInstance = _shapeScene.Instantiate<Shape>();
-        shapeInstance.RegularPolygon(sides, position, radius);
+        if (polygonType == PolygonType.Regular)
+        {
+            shapeInstance.RegularPolygon(sides, position, radius);
+        }
+        else if (polygonType == PolygonType.Irregular)
+        {
+            shapeInstance.IrregularPolygon(sides, position, radius);
+        }
+        else
+        {
+            GD.PushError("Unrecognized polygon type in displayShape");
+        }
+
         AddChild(shapeInstance);
+    }
+
+    private PolygonType GetSelectedPolygonType()
+    {
+        int selectedId = _polygonTypeButton.Selected;
+        return (PolygonType)selectedId;
     }
 
     private void OnGenerateShapesButtonPressed()
@@ -68,12 +102,12 @@ public partial class Main : Control
         var minNumberOfSides = _minNumberOfSides.Value;
         var maxNumberOfSides = _maxNumberOfSides.Value;
         var sizeOfShapes = (int)_sizeOfShapes.Value;
+        var polygonType = GetSelectedPolygonType();
 
         GD.Print($"button pressed: {numberOfShapes}");
         GD.Print($"minimum number of sides: {minNumberOfSides}");
         GD.Print($"Maximum number of Sides: {maxNumberOfSides}");
 
-        _outputLabel.Text = $"{numberOfShapes}, {minNumberOfSides}, {maxNumberOfSides}";
         var random = new Random();
 
         int gridContainerWidth = 500;
@@ -87,7 +121,7 @@ public partial class Main : Control
                 sizeOfShapes * 2,
                 gridContainerWidth
             );
-            displayShape(numberOfSides, position, sizeOfShapes);
+            displayShape(numberOfSides, position, sizeOfShapes, polygonType);
         }
     }
 
