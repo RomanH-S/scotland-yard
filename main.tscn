@@ -77,14 +77,27 @@ layout_mode = 2
 min_value = 3.0
 value = 3.0
 
-[node name="MaxSidesCounter2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=644102228]
+[node name="AngleVarianceCounter" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1049917642]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/MaxSidesCounter2" unique_id=1231031993]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/AngleVarianceCounter" unique_id=245751108]
+layout_mode = 2
+text = "Angle Variance"
+
+[node name="AngleVarianceSpinBox" type="SpinBox" parent="HBoxContainer/VBoxContainer/AngleVarianceCounter" unique_id=1372205280]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 3.0
+value = 3.0
+
+[node name="RegularToggle" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=644102228]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/RegularToggle" unique_id=1231031993]
 layout_mode = 2
 text = "Type"
 
-[node name="PolygonType" type="OptionButton" parent="HBoxContainer/VBoxContainer/MaxSidesCounter2" unique_id=1471131442]
+[node name="PolygonType" type="OptionButton" parent="HBoxContainer/VBoxContainer/RegularToggle" unique_id=1471131442]
 unique_name_in_owner = true
 layout_mode = 2
 selected = 0

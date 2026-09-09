@@ -8,6 +8,7 @@ public partial class Main : Control
     private SpinBox _numberOfShapes;
     private SpinBox _minNumberOfSides;
     private SpinBox _sizeOfShapes;
+    private SpinBox _angleVariance;
     private OptionButton _polygonTypeButton;
 
     private SpinBox _maxNumberOfSides;
@@ -17,6 +18,7 @@ public partial class Main : Control
     private Marker2D _shapeOrigin;
     private List<Shape> _shapes = [];
     private static PackedScene _shapeScene;
+
 
     public enum PolygonType
     {
@@ -37,6 +39,8 @@ public partial class Main : Control
         _maxNumberOfSides = GetNode<SpinBox>("%MaxSidesSpinBox");
 
         _sizeOfShapes = GetNode<SpinBox>("%SizeOfShapesSpinBox");
+
+        _angleVariance = GetNode<SpinBox>("%AngleVarianceSpinBox");
 
         _polygonTypeButton = GetNode<OptionButton>("%PolygonType");
         _polygonTypeButton.Clear();
@@ -65,7 +69,7 @@ public partial class Main : Control
         }
     }
 
-    private void displayShape(int sides, Vector2 position, int radius, PolygonType polygonType)
+    private void displayShape(int sides, Vector2 position, int radius, PolygonType polygonType, int angleVariance)
     {
         // Check if the scene has already been loaded once
         if (_shapeScene == null)
@@ -80,7 +84,7 @@ public partial class Main : Control
         }
         else if (polygonType == PolygonType.Irregular)
         {
-            shapeInstance.IrregularPolygon(sides, position, radius);
+            shapeInstance.IrregularPolygon(sides, position, radius, angleVariance);
         }
         else
         {
@@ -102,6 +106,7 @@ public partial class Main : Control
         var minNumberOfSides = _minNumberOfSides.Value;
         var maxNumberOfSides = _maxNumberOfSides.Value;
         var sizeOfShapes = (int)_sizeOfShapes.Value;
+        var angleVariance = _angleVariance.Value;
         var polygonType = GetSelectedPolygonType();
 
         GD.Print($"button pressed: {numberOfShapes}");
@@ -121,7 +126,7 @@ public partial class Main : Control
                 sizeOfShapes * 2,
                 gridContainerWidth
             );
-            displayShape(numberOfSides, position, sizeOfShapes, polygonType);
+            displayShape(numberOfSides, position, sizeOfShapes, polygonType, (int)angleVariance);
         }
     }
 
