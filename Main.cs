@@ -5,6 +5,7 @@ using Godot;
 public partial class Main : Control
 {
     private Button _generateShapes;
+
     //private SpinBox _numberOfShapes;
     private SpinBox _minNumberOfSides;
     private SpinBox _sizeOfShapes;
@@ -18,8 +19,7 @@ public partial class Main : Control
     private Marker2D _shapeOrigin;
     private List<Shape> _shapes = [];
     private static PackedScene _shapeScene;
-    Shape shapeInstance = null;
-
+    Shape shapeInstance;
 
     public enum PolygonType
     {
@@ -42,7 +42,6 @@ public partial class Main : Control
         _sizeOfShapes = GetNode<SpinBox>("%SizeOfShapesSpinBox");
 
         _angleVariance = GetNode<SpinBox>("%AngleVarianceSpinBox");
-
 
         _polygonTypeButton = GetNode<OptionButton>("%PolygonType");
         _polygonTypeButton.Clear();
@@ -71,12 +70,17 @@ public partial class Main : Control
         }
     }
 
-    private void displayShape(int sides, Vector2 position, int radius, PolygonType polygonType, int angleVariance)
+    private void displayShape(
+        int sides,
+        Vector2 position,
+        int radius,
+        PolygonType polygonType,
+        int angleVariance
+    )
     {
-        
-        if(shapeInstance != null)
+        if (shapeInstance != null)
         {
-        shapeInstance.QueueFree();
+            shapeInstance.QueueFree();
         }
         // Check if the scene has already been loaded once
         if (_shapeScene == null)
@@ -116,33 +120,31 @@ public partial class Main : Control
         var angleVariance = _angleVariance.Value;
         var polygonType = GetSelectedPolygonType();
 
-
         GD.Print($"minimum number of sides: {minNumberOfSides}");
         GD.Print($"Maximum number of Sides: {maxNumberOfSides}");
 
         var random = new Random();
-        
+
         //int gridContainerWidth = 500;
 
         //for (int i = 0; i < numberOfShapes; i++)
         //{
-            int numberOfSides = random.Next((int)minNumberOfSides, (int)maxNumberOfSides + 1);
+        int numberOfSides = random.Next((int)minNumberOfSides, (int)maxNumberOfSides + 1);
 
-            Vector2 position = _shapeOrigin.Position;
-            //Vector2 position = LayoutGrid(
-                //i,
-                //sizeOfShapes * 2,
-                //sizeOfShapes * 2,
-                //gridContainerWidth
-            //);
-            displayShape(numberOfSides, position, sizeOfShapes, polygonType, (int)angleVariance);
+        Vector2 position = _shapeOrigin.Position;
+        //Vector2 position = LayoutGrid(
+        //i,
+        //sizeOfShapes * 2,
+        //sizeOfShapes * 2,
+        //gridContainerWidth
+        //);
+        displayShape(numberOfSides, position, sizeOfShapes, polygonType, (int)angleVariance);
         //}
-        
     }
 
     private Vector2 LayoutGrid(int i, int height, int width, int gridWidth)
     {
-        Vector2 originPosition= _shapeOrigin.Position;
+        Vector2 originPosition = _shapeOrigin.Position;
         int columns = gridWidth / width;
         int x = i % columns;
         int y = i / columns;

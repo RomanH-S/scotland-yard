@@ -1,16 +1,15 @@
 using System;
+using System.Collections.Generic;
 using Godot;
 
 public partial class Shape : Node2D
 {
-    
     private Line2D _line;
-    
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         _line = new Line2D();
-        
     }
 
     public override void _ExitTree()
@@ -32,11 +31,9 @@ public partial class Shape : Node2D
             _line.AddPoint(new Vector2(x, y) + position);
         }
         AddChild(_line);
-        
-
-        //_line.QueueFree();
     }
-    
+
+    // Generates a random irregular polygon
     public void IrregularPolygon(int sides, Vector2 position, int radius, int angleVariance)
     {
         var random = new Random();
@@ -58,6 +55,46 @@ public partial class Shape : Node2D
 
         AddPoint(firstAngle, radius, position);
         AddChild(_line);
+    }
+
+    public double ExteriorAngle(Vector2 originPoint)
+    {
+        int i = Array.IndexOf(_line.Points, originPoint);
+        Vector2 a;
+        Vector2 b = originPoint;
+        Vector2 c;
+
+        if (i - 1 < 0)
+        {
+            a = _line.Points[_line.Points.Length - 1];
+        }
+        else
+        {
+            a = _line.Points[i - 1];
+        }
+
+        if (i + 1 > _line.Points.Length - 1)
+        {
+            c = _line.Points[0];
+        }
+        else
+        {
+            c = _line.Points[i + 1];
+        }
+
+        double angle = 0.0;
+        return angle;
+    }
+
+    public void AdjacentIrregularPolygon(
+        Shape shape,
+        Vector2 point,
+        int sides,
+        int radius,
+        int angleVariance
+    )
+    {
+        double angle = shape.ExteriorAngle(point);
     }
 
     private void AddPoint(double angle, int radius, Vector2 position)
