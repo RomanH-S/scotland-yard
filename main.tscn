@@ -25,6 +25,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="NumberOfShapesCounter" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=854859339]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/NumberOfShapesCounter" unique_id=261226178]
@@ -116,7 +117,7 @@ layout_mode = 0
 offset_top = 35.0
 offset_right = 235.0
 offset_bottom = 66.0
-text = "Generates Shapes"
+text = "Generate Shape"
 
 [node name="Control2" type="Control" parent="HBoxContainer" unique_id=216814299]
 layout_mode = 2
@@ -132,4 +133,4 @@ metadata/_edit_lock_ = true
 
 [node name="ShapeOrigin" type="Marker2D" parent="HBoxContainer/Control2" unique_id=1423736022]
 unique_name_in_owner = true
-position = Vector2(427, 329)
+position = Vector2(423, 332)

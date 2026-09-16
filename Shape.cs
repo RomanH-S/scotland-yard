@@ -3,12 +3,14 @@ using Godot;
 
 public partial class Shape : Node2D
 {
+    
     private Line2D _line;
-
+    
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         _line = new Line2D();
+        
     }
 
     public override void _ExitTree()
@@ -30,8 +32,11 @@ public partial class Shape : Node2D
             _line.AddPoint(new Vector2(x, y) + position);
         }
         AddChild(_line);
-    }
+        
 
+        //_line.QueueFree();
+    }
+    
     public void IrregularPolygon(int sides, Vector2 position, int radius, int angleVariance)
     {
         var random = new Random();
