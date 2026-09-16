@@ -5,7 +5,7 @@ using Godot;
 public partial class Main : Control
 {
     private Button _generateShapes;
-    private SpinBox _numberOfShapes;
+    //private SpinBox _numberOfShapes;
     private SpinBox _minNumberOfSides;
     private SpinBox _sizeOfShapes;
     private SpinBox _angleVariance;
@@ -18,6 +18,7 @@ public partial class Main : Control
     private Marker2D _shapeOrigin;
     private List<Shape> _shapes = [];
     private static PackedScene _shapeScene;
+    Shape shapeInstance = null;
 
 
     public enum PolygonType
@@ -32,7 +33,7 @@ public partial class Main : Control
         _generateShapes = GetNode<Button>("%GenerateShapesButton");
         _generateShapes.Pressed += OnGenerateShapesButtonPressed;
 
-        _numberOfShapes = GetNode<SpinBox>("%NumberOfShapesSpinBox");
+        //_numberOfShapes = GetNode<SpinBox>("%NumberOfShapesSpinBox");
 
         _minNumberOfSides = GetNode<SpinBox>("%MinSidesSpinBox");
 
@@ -41,6 +42,7 @@ public partial class Main : Control
         _sizeOfShapes = GetNode<SpinBox>("%SizeOfShapesSpinBox");
 
         _angleVariance = GetNode<SpinBox>("%AngleVarianceSpinBox");
+
 
         _polygonTypeButton = GetNode<OptionButton>("%PolygonType");
         _polygonTypeButton.Clear();
@@ -71,13 +73,18 @@ public partial class Main : Control
 
     private void displayShape(int sides, Vector2 position, int radius, PolygonType polygonType, int angleVariance)
     {
+        
+        if(shapeInstance != null)
+        {
+        shapeInstance.QueueFree();
+        }
         // Check if the scene has already been loaded once
         if (_shapeScene == null)
         {
             _shapeScene = GD.Load<PackedScene>("res://shape.tscn");
         }
 
-        Shape shapeInstance = _shapeScene.Instantiate<Shape>();
+        shapeInstance = _shapeScene.Instantiate<Shape>();
         if (polygonType == PolygonType.Regular)
         {
             shapeInstance.RegularPolygon(sides, position, radius);
@@ -102,40 +109,44 @@ public partial class Main : Control
 
     private void OnGenerateShapesButtonPressed()
     {
-        var numberOfShapes = _numberOfShapes.Value;
+        //var numberOfShapes = _numberOfShapes.Value;
         var minNumberOfSides = _minNumberOfSides.Value;
         var maxNumberOfSides = _maxNumberOfSides.Value;
         var sizeOfShapes = (int)_sizeOfShapes.Value;
         var angleVariance = _angleVariance.Value;
         var polygonType = GetSelectedPolygonType();
 
-        GD.Print($"button pressed: {numberOfShapes}");
+
         GD.Print($"minimum number of sides: {minNumberOfSides}");
         GD.Print($"Maximum number of Sides: {maxNumberOfSides}");
 
         var random = new Random();
+        
+        //int gridContainerWidth = 500;
 
-        int gridContainerWidth = 500;
-
-        for (int i = 0; i < numberOfShapes; i++)
-        {
+        //for (int i = 0; i < numberOfShapes; i++)
+        //{
             int numberOfSides = random.Next((int)minNumberOfSides, (int)maxNumberOfSides + 1);
-            Vector2 position = LayoutGrid(
-                i,
-                sizeOfShapes * 2,
-                sizeOfShapes * 2,
-                gridContainerWidth
-            );
+
+            Vector2 position = _shapeOrigin.Position;
+            //Vector2 position = LayoutGrid(
+                //i,
+                //sizeOfShapes * 2,
+                //sizeOfShapes * 2,
+                //gridContainerWidth
+            //);
             displayShape(numberOfSides, position, sizeOfShapes, polygonType, (int)angleVariance);
-        }
+        //}
+        
     }
 
     private Vector2 LayoutGrid(int i, int height, int width, int gridWidth)
     {
+        Vector2 originPosition= _shapeOrigin.Position;
         int columns = gridWidth / width;
         int x = i % columns;
         int y = i / columns;
 
-        return new Vector2(x * width, y * height);
+        return new Vector2(x * width, y * height) + originPosition;
     }
 }
