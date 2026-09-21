@@ -120,8 +120,6 @@ public partial class Main : Control
         var angleVariance = _angleVariance.Value;
         var polygonType = GetSelectedPolygonType();
 
-        GD.Print($"minimum number of sides: {minNumberOfSides}");
-        GD.Print($"Maximum number of Sides: {maxNumberOfSides}");
 
         var random = new Random();
 

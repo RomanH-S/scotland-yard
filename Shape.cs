@@ -5,7 +5,8 @@ using Godot;
 public partial class Shape : Node2D
 {
     private Line2D _line;
-
+    double x = 0;
+    double y = 0;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -36,24 +37,28 @@ public partial class Shape : Node2D
     // Generates a random irregular polygon
     public void IrregularPolygon(int sides, Vector2 position, int radius, int angleVariance)
     {
-        var random = new Random();
+       var random = new Random();
         double angle;
         double x = 0;
         double y = 0;
         _line = new Line2D { Width = 2.0f, DefaultColor = Colors.Red };
 
         // higher value for angle variance makes it vary less
-        double randomAngle = Math.PI * 2 / random.Next(-angleVariance, angleVariance);
+        double randomAngle = (random.Next(0,1)*2 -1)* Math.PI / random.Next(1, angleVariance);
         double firstAngle = randomAngle;
 
         for (int i = 0; i < sides; i++)
         {
             angle = i * (2 * Math.PI / sides) + randomAngle;
             AddPoint(angle, radius, position + new Vector2((float)x, (float)y));
-            randomAngle = Math.PI * 2 / random.Next(-angleVariance, angleVariance);
+
+            // Maybe add slider for something multiplying pi for better control on variance
+            randomAngle = (random.Next(0,1)*2 -1)* Math.PI / random.Next(1, angleVariance);
         }
 
-        AddPoint(firstAngle, radius, position);
+        x = (double)(Math.Cos(firstAngle) * radius);
+        y = (double)(Math.Sin(firstAngle) * radius);
+        _line.AddPoint(new Vector2((float)x, (float)y) + position);
         AddChild(_line);
     }
 
@@ -82,7 +87,8 @@ public partial class Shape : Node2D
             c = _line.Points[i + 1];
         }
 
-        double angle = 0.0;
+        double angle = Math.Atan((b.Y - a.Y) / (b.X - a.X));
+        
         return angle;
     }
 
@@ -96,11 +102,10 @@ public partial class Shape : Node2D
     {
         double angle = shape.ExteriorAngle(point);
     }
-
     private void AddPoint(double angle, int radius, Vector2 position)
     {
-        double x = (double)(Math.Cos(angle) * radius);
-        double y = (double)(Math.Sin(angle) * radius);
-        _line.AddPoint(new Vector2((float)x, (float)y) + position + new Vector2(200, 200));
+        x = (double)(Math.Cos(angle) * radius) + x;
+        y = (double)(Math.Sin(angle) * radius) + y;
+        _line.AddPoint(new Vector2((float)x, (float)y) + position);
     }
 }
